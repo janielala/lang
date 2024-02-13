@@ -1,0 +1,23 @@
+/* @import './header.css'; */
+
+#prediction-container {
+    border: 5px solid black;
+    width: 600px;
+    max-width: 100%;
+}
+
+#prediction {
+    position: relative;
+}
+
+#prediction img {
+    width: 100%;
+}
+
+.prediction_text {
+    background-color: white;
+}
+
+#prediction .rect {
+    border: 2px dashed cyan;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <link rel="shortcut icon" href="#" type="image/x-icon">
+    <title>Tensorflow test</title>
+    <!-- Load TensorFlow.js. This is required to use coco-ssd model. -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"> </script>
+    <!-- Load the coco-ssd model. -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
+    <script type="module">
+        import classes from './objects.js'
+        globalThis.getCantoneseWord = function(predictions) {
+            return classes[predictions[0].class]
+        }
+    </script>
+</head>
+<body>
+    <!-- http://localhost:5501/tensorflow-test -->
+    <!-- <img id="img" src="/tensorflow-test/cat.jpg"/> -->
+    <input type="file" accept="image/*">
+    <button onclick="readFile()">predict</button>
+    <script>
+        const input = document.querySelector('input')
+        let image = document.createElement('img')
+        const reader = new FileReader()
+        reader.addEventListener('load', predict)
+
+        function readFile() {
+            console.dir(input)
+            if (input.files.length < 1) {
+                alert('you must choose a file first')
+                return
+            }
+            console.log('predicting...')
+            reader.readAsDataURL(input.files[0])
+        }
+
+        function predict(e) {
+            image.src = e.target.result
+
+            // Load the model.
+            cocoSsd.load().then(model => {
+                // detect objects in the image.
+                model.detect(image).then(predictions => {
+                    console.log('Predictions: ', predictions);
+                    let cantonese = getCantoneseWord(predictions)
+                    if (!cantonese) {
+                        console.log('no prediction found')
+                    } else {
+                        console.log(cantonese)
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
