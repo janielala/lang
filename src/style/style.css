@@ -16,8 +16,29 @@
 
 .prediction_text {
     background-color: white;
+    position: relative;
+    z-index: 2;
 }
 
 #prediction .rect {
     border: 2px dashed cyan;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.loading-icon {
+    animation-name: spin;
+    animation-duration: 500ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 }
